@@ -3,6 +3,7 @@ import nltk.data
 import stop_words
 import pymorphy2
 import pandas as pd
+print('Lemmatizing...')
 
 def getText(filename):
     doc = docx.Document(filename)
@@ -12,7 +13,7 @@ def getText(filename):
     return "\n".join(fullText)
 
 
-text = getText("combined.docx")
+text = getText("example_all.docx")
 
 sentences = []
 tokenizer = nltk.data.load("tokenizers/punkt/russian.pickle")
@@ -91,3 +92,4 @@ df["paragraphs"] = df["paragraphs"].apply(delete_eng)
 
 df.to_excel("interview_lemmatized.xlsx")
 
+print('Your file is lemmatized. Please find enclosed interview_lemmatized.xlsx')

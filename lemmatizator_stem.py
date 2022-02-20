@@ -4,6 +4,8 @@ import stop_words
 import pymystem3
 import pandas as pd
 
+print('Lemmatizing...')
+
 def getText(filename):
     doc = docx.Document(filename)
     fullText = []
@@ -67,3 +69,4 @@ def delete_stop_words(text):
 df['paragraphs'] = df['paragraphs'].apply(delete_stop_words)
 df['paragraphs'] = df['paragraphs'].apply(delete_eng)
 df.to_excel('interview_lemmatized.xlsx')
+print('Your file is lemmatized. Please find enclosed interview_lemmatized.xlsx')
