@@ -11,3 +11,6 @@ python3 -m http.server
 ```
 5) Proceed to localhost::8000
 
+## 🚀 About Me
+I'm a computational sociologist
+
