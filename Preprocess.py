@@ -42,7 +42,7 @@ def preprocess(text_file, lemmatized_excel_file, length_restrict, bigram_mincoun
                     index = range(1, len(paragraphs)+1))
     return df
 
-  df_raw = dataset_raw('example_all.docx')
+  df_raw = dataset_raw('./Files/example_all.docx')
   print('Raw dataset ready')
   #Provide excel file with lemmatized sentences
   print('Processing your lemmatized dataset...')
@@ -114,16 +114,15 @@ def preprocess(text_file, lemmatized_excel_file, length_restrict, bigram_mincoun
   return df_raw, df_counts, df_counts_new, x_train_rus, x_rus, dictionary, corpus
       
 
-my_file = open("additional_stopwords.txt", "r")
+my_file = open("./Files/additional_stopwords.txt", "r")
 content = my_file.read()
 additional_stopwords = content.split(",")
 my_file.close()
 
 all_sw += additional_stopwords
 
-# additional_stopwords = []
 
-df_raw, df_counts, df_counts_new, x_train_rus, x_rus, dictionary, corpus = preprocess('example_all.docx', 'interview_lemmatized.xlsx', 2, 3, additional_stopwords)
+df_raw, df_counts, df_counts_new, x_train_rus, x_rus, dictionary, corpus = preprocess('./Files/example_all.docx', 'interview_lemmatized.xlsx', 2, 3, additional_stopwords)
 
 print('Here is your words frequencies. Please check what words you want to add to stop list and add them to additional stopwords list.')
 print(df_counts_new[0:30])
