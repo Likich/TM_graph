@@ -398,7 +398,7 @@ class Topic_Model(object):
           
           #topic reduction
           wanted = self.k
-          resize = len(topic_sizes) - (wanted-1)
+          resize = len(topic_sizes) - (wanted+1)
           from sklearn.metrics.pairwise import cosine_similarity
           for i in range(resize):
             # Calculate cosine similarity
