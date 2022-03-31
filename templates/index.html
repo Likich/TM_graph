@@ -1,0 +1,72 @@
+<!doctype html>
+
+
+<head>
+
+    <title>Topic modeling graph</title>
+    <link rel="stylesheet" href="static/data/rubic.css">
+
+    </head>
+    <body>
+    <a href="https://github.com/Likich/TM_graph"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
+    <h1>Auto-coding of semistructured interviews</h1>
+    <h3>Angelina Parfenova</h3>
+
+
+    <p class="links">
+    <a href="https://github.com/Likich/TM_graph">Get the source</a>
+    </p>
+
+    <p><b>Instructions:</b></p>
+
+    <p>Please note that at the moment the service only works for the Russian language. 
+
+        <p>First, upload the text of all your interviews.txt in the file download form. Click the upload button and go back to the main page. .</p>
+        
+        <p>Add the file additional_stopwords.txt, which will list the stop words separated by commas. Similarly, click the upload button and come back</p>
+
+        <p>Click the lemmatize button, then you will be able to download the database with the lemmatized sentences. </p>
+        
+        <p> Click the preprocess button, after that you are given word frequencies. Think about which ones you can put in the stop words and edit additional_stopwords.txt if necessary. </p>
+        
+        <p> Next, type in the field for the method name: LDA or BERT, and specify the desired number of tops. Run the model and wait. BERT is much better, but takes considerable time.</p>
+        
+
+    
+    <meta charset=utf-8> </head>
+    <body>
+    <h1>Run the model</h1>
+    <form action = "http://localhost:5000/uploader" method = "POST" 
+            enctype = "multipart/form-data">
+    <input type = "file" name = "file" />
+    <input type = "submit"/>
+    </form>   
+    <form action = "http://localhost:5000/uploader2" method = "POST" 
+            enctype = "multipart/form-data">
+    <input type = "file" name = "file" />
+    <input type = "submit"/>
+    <br><br>
+    </form>               
+    <p class="btnwrap"> <button>  <a href="/my-link/">Lemmatize</a></button> </p>
+    <p class="btnwrap"><button> <a href="/my-preprocess/">Preprocess</a></button></p>
+        
+
+    <form action="/graph/" method = "POST">
+            <p>Method <input type = "text" name = "Method" /></p>
+            <p>Number of Topics <input type = "value" name = "Topics number" /></p>
+            <p><input type = "submit" value = "Submit" /></p>
+            
+    </form>
+        
+    <div class="loader-wrapper">
+        <span class="loader"><span class="loader-inner"></span></span>
+    </div>
+      
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script>
+		$(window).on("load",function(){
+     	 	$(".loader-wrapper").fadeOut("slow");
+		});
+	</script>
+
+    </body>
