@@ -88,6 +88,4 @@ uvloop==0.16.0
 webencodings==0.5.1
 websockets==8.1
 Werkzeug==2.0.3
-wget==3.2
-widgetsnbextension==3.5.2
 
