@@ -1,8 +1,5 @@
 
 def lemmatize_all(text_file):
-    import docx
-    import nltk
-    import nltk.data
     import stop_words
     import pymystem3
     import pandas as pd

@@ -1,19 +1,10 @@
-from email.mime import application
-import docx
-import nltk
-import nltk.data
-import stop_words
-import pymystem3
-import pandas as pd
 from flask import Flask, render_template
 from lemmatizator_stem import lemmatize_all
 from Preprocess import preprocess_all
 from flask import jsonify
-import json
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 from Make_graph_from_TM import make_graph_big
-import os
 import shutil
 
 app = Flask(__name__)

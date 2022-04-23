@@ -1,23 +1,13 @@
-from nltk.stem import WordNetLemmatizer
-from nltk import word_tokenize
-from nltk.tokenize import RegexpTokenizer
-from nltk.corpus import stopwords
-import re
 import numpy as np
-import nltk
 from collections import Counter
 from sklearn.feature_extraction.text import CountVectorizer
 from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
-import gensim
 from IPython.display import display, HTML
 from sklearn.decomposition import LatentDirichletAllocation
 from sklearn.decomposition import NMF
 import gensim
 from datetime import timedelta
-import json
-import itertools
-import numpy as np
 import stop_words
 from gensim.models import CoherenceModel
 import tqdm
@@ -27,9 +17,6 @@ import pandas as pd
 import requests
 import numpy as np
 from bs4 import BeautifulSoup
-import time
-import nltk.data
-import docx
 from gensim import corpora
 from gensim.models import CoherenceModel
 from tqdm.notebook import tqdm 
