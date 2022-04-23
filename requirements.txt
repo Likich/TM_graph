@@ -153,7 +153,6 @@ six==1.14.0
 sklearn==0.0
 smart-open==5.2.1
 sniffio==1.2.0
-sos==4.2
 soupsieve==2.3.1
 ssh-import-id==5.10
 stack-data==0.2.0
