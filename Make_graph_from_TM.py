@@ -6,6 +6,8 @@ def make_graph_big(method, k):
     import json
     import warnings
     import random
+    from googletrans import Translator
+    translator = Translator()
     warnings.filterwarnings('ignore')
 
     dictionary = corpora.Dictionary.load('/home/likich/TM_graph/dictionary')
@@ -93,8 +95,9 @@ def make_graph_big(method, k):
         node_namings_only = []
         for node in clear_nodes:
             for key, node_name in node.items():
+                
                 node_namings_only.append(node_name)
-
+        
         for node in clear_nodes:
             for key, node_name in node.items():
                 c=random.choice(color_pallette)
@@ -113,9 +116,25 @@ def make_graph_big(method, k):
                 pass
             else:
                 clear_links.append(links[i])
-        dict_json = {'links': clear_links, 'nodes': clear_nodes}
+
+        #Translation module
+        
+        eng_nodes = []
+        for tupl in clear_nodes:
+            for key, items in tupl.items():
+                smol_dict = {'name': translator.translate(items).text}
+                eng_nodes.append(smol_dict)
+
+
+
+
+
+        dict_json = {'links': clear_links, 'nodes': eng_nodes}
         with open('graph.json', 'w', encoding='utf-8') as file:
             json.dump(dict_json, file, ensure_ascii=False)
+     
 
 
     print('Everything is ready. Please run the command: python3 -m http.server and go to your localhost.')
+  
+    
