@@ -52,7 +52,10 @@
         
 
     <form action="/graph/" method = "POST">
-            <p>Method <input type = "text" name = "Method" /></p>
+            <p> Method:
+            <select name="Method" id="s1">
+            <option value="LDA" >LDA</option>
+            <option value="BERT">BERT</option></select></p>
             <p>Number of Topics <input type = "value" name = "Topics number" /></p>
             <p><input type = "submit" value = "Submit" /></p>
             
