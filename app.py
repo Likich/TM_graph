@@ -4,7 +4,7 @@ from Preprocess import preprocess_all
 from flask import jsonify
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
-from Make_graph_from_TM import make_graph_big
+from Make_graph_from_TM import make_graph_big, translate_to_eng
 import shutil
 
 app = Flask(__name__)
@@ -50,10 +50,32 @@ def data():
     if request.method == 'POST':
         method = request.form['Method']
         k = request.form['Topics number']
-        make_graph_big(method, k)
+        clear_nodes, clear_links = make_graph_big(method, k)
         shutil.move("graph.json", "static/data/graph.json")
+        with open(r'clear_nodes', 'w') as fp:
+          for item in clear_nodes: fp.write("%s\n" % item)
+          print('Done for clear_nodes')
+        with open(r'clear_links', 'w') as fp:
+          for item in clear_links: fp.write("%s\n" % item)
+          print('Done for clear_links')
         return render_template('make_graph.html')
 
+@app.route('/my-translate/')
+def my_translate():
+  import ast
+  clear_nodes = []
+  clear_links = []
+  with open(r'clear_nodes', 'r') as fp:
+      for line in fp:
+          x = line[:-1]
+          clear_nodes.append(ast.literal_eval(x))
+  with open(r'clear_links', 'r') as fp:
+      for line in fp:
+          x = line[:-1]
+          clear_links.append(ast.literal_eval(x))  
+  translate_to_eng(clear_nodes, clear_links)
+  shutil.move("graph.json", "static/data/graph.json")
+  return render_template('make_graph.html')
 
 if __name__ == '__main__':
   app.run(debug=True)

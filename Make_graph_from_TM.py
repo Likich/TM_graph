@@ -72,15 +72,7 @@ def make_graph_big(method, k):
             else:
                 clear_links.append(links[i])
 
-                #Translation module
-        
-        eng_nodes = []
-        for tupl in clear_nodes:
-            for key, items in tupl.items():
-                smol_dict = {'name': translator.translate(items).text}
-                eng_nodes.append(smol_dict)
-
-        dict_json = {'links': clear_links, 'nodes': eng_nodes}
+        dict_json = {'links': clear_links, 'nodes': clear_nodes}
         with open('graph.json', 'w', encoding='utf-8') as file:
             json.dump(dict_json, file, ensure_ascii=False)
 
@@ -125,24 +117,32 @@ def make_graph_big(method, k):
             else:
                 clear_links.append(links[i])
 
-        #Translation module
-        
-        eng_nodes = []
-        for tupl in clear_nodes:
-            for key, items in tupl.items():
-                smol_dict = {'name': translator.translate(items).text}
-                eng_nodes.append(smol_dict)
-
-
-
-
-
-        dict_json = {'links': clear_links, 'nodes': eng_nodes}
+        dict_json = {'links': clear_links, 'nodes': clear_nodes}
         with open('graph.json', 'w', encoding='utf-8') as file:
             json.dump(dict_json, file, ensure_ascii=False)
+        
+    
+    print('Everything is ready. Please run the command: python3 -m http.server and go to your localhost.')
+    return clear_nodes, clear_links
+
+
+  
+def translate_to_eng(clear_nodes, clear_links):
+    from googletrans import Translator
+    translator = Translator()
+    import json
+
+        #Translation module        
+    eng_nodes = []
+    for tupl in clear_nodes:
+        for key, items in tupl.items():
+            smol_dict = {'name': translator.translate(items).text}
+            eng_nodes.append(smol_dict)
+
+    dict_json = {'links': clear_links, 'nodes': eng_nodes}
+    with open('graph.json', 'w', encoding='utf-8') as file:
+        json.dump(dict_json, file, ensure_ascii=False)
      
-
-
     print('Everything is ready. Please run the command: python3 -m http.server and go to your localhost.')
   
-    
+       
