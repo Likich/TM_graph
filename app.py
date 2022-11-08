@@ -1,11 +1,14 @@
 from flask import Flask, render_template
-from lemmatizator_stem import lemmatize_all
+from lemmatizator_stem import lemmatize_all, lemmatize_all_eng
 from Preprocess import preprocess_all
 from flask import jsonify
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 from Make_graph_from_TM import make_graph_big, translate_to_eng
 import shutil
+import googletrans
+from googletrans import Translator
+translator = Translator()
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -29,10 +32,17 @@ def upload_file2():
       f.save(secure_filename(f.filename))
       return 'File uploaded successfully. You can go back to the previous page.'
 
+
 @app.route('/my-link/')
 def my_link():
-  print ('I got clicked!')
-  lemmatize_all('interviews.txt')
+  with open('interviews.txt') as f:
+    first_line = f.readline()
+  result = translator.translate(first_line)
+  lang = result.src
+  if lang == 'ru':
+    lemmatize_all('interviews.txt')
+  elif lang == 'en':
+    lemmatize_all_eng('interviews.txt')
 
   return 'Your file is lemmatized, now you can go back to the main page and click preprocess.'
 
@@ -42,8 +52,6 @@ def my_preprocess():
   res = preprocess_all('interviews.txt', 'additional_stopwords.txt')
   res = jsonify(res.to_dict(orient='records'))
   return res
-
-
 
 @app.route("/graph/", methods = ['POST', 'GET'])
 def data():
