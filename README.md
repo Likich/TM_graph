@@ -1,3 +1,5 @@
 # TM_graph
 
-Please run the server.py app and follow instructions on the website
+This server can help you with analyzing your interviews! <br>
+Just load your text to the server and it's gonna be vizualised in the graph of topics. <br>
+Please run the app.py and follow instructions on the website
