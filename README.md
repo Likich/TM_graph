@@ -37,7 +37,7 @@ To get started with TM_graph, follow these steps:
 2. Choose your preferred topic modeling method (e.g., BERT or LDA) and the number of topics.
 3. Analyze and visualize your text data based on the selected method.
 4. Explore the topics in the graph.
-5. 
+
 ## Multilingual Support
 The server provides multilingual support. It can automatically detect the language of the input text and select the appropriate model (DeepPavlov for Russian or multilingual BERT for other languages).
 
