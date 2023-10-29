@@ -26,15 +26,15 @@ To get started with TM_graph, follow these steps:
 2. Install the required dependencies using pip. You can use the provided requirements.txt file:
 
 
-```
-pip install -r requirements.txt
-```
+   ```
+   pip install -r requirements.txt
+   ```
 
 3. Run the server by executing app.py:
 
-```
-python app.py
-```
+   ```
+   python app.py
+   ```
 
 
 4. Open a web browser and access the server as per the provided instructions.
