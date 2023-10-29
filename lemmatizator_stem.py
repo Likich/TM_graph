@@ -4,6 +4,7 @@ def lemmatize_all(text_file):
     import pymystem3
     import pandas as pd
     print('Lemmatizing...')
+
     def getText(tex):
         with open(tex) as f:
             text = f.readlines()
@@ -15,6 +16,7 @@ def lemmatize_all(text_file):
                     columns = ['paragraphs'],
                     index = range(1, len(paragraphs)+1))
     df['paragraphs'] = df['paragraphs'].str.lower()
+
     def delete_punctuation(text):
         clear_text = ""
         for symbol in text:
@@ -38,6 +40,7 @@ def lemmatize_all(text_file):
     df['paragraphs'] = df['paragraphs'].apply(delete_double)
 
     mstem = pymystem3.Mystem()
+
     def lemmatize(text):
         return ''.join(mstem.lemmatize(text)).strip()
     df['paragraphs'] = df['paragraphs'].apply(lemmatize)
@@ -47,6 +50,7 @@ def lemmatize_all(text_file):
     len(all_sw)
     additional = ['интервьюер', 'информант']
     all_sw += additional
+    
     def delete_stop_words(text):
         text = text.split()
         clear_text = []

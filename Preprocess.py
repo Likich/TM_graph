@@ -15,10 +15,13 @@ def preprocess_all(text_files, add_stop_words):
   all_sw = rus + en
   additional = ['инт', 'инф']
   all_sw += additional
+
+
   def preprocess(text_file, lemmatized_excel_file, length_restrict, bigram_mincount, additional_stopwords):
     ''' length_restrict - the minimum length of the word to leave in the text
         bigram_mincount – Ignore all words and bigrams with total collected count lower than this value.'''
     print('Reading your transcripts...')
+
     def getText(text_file):
       with open(text_file) as f:
           text = f.readlines()
@@ -35,6 +38,7 @@ def preprocess_all(text_files, add_stop_words):
     print('Raw dataset ready')
     print('Processing your lemmatized dataset...')
     df = pd.read_excel(lemmatized_excel_file, engine="openpyxl", index_col = 0)
+    
     def text_to_array(length_restrict, lemmatized_df):
       ''' length_restrict - the minimum length of the word to leave in the text'''
       x_rus = []
@@ -58,6 +62,8 @@ def preprocess_all(text_files, add_stop_words):
       
       return x_rus, df_counts
     x_rus, df_counts = text_to_array(length_restrict, df)
+
+
     def purification(additional_stopwords, array_to_clear, stop_words):
       stop_words += additional_stopwords
       x_rus_c = []
@@ -68,6 +74,7 @@ def preprocess_all(text_files, add_stop_words):
       for i in array_to_clear:
         x_rus_c.append(list(set(i)))
       return x_rus_c
+    
     def make_corpus(clear_text_set, bigram_mincount):
       '''bigram_mincount – Ignore all words and bigrams with total collected count lower than this value.'''
       bigram = gensim.models.Phrases(clear_text_set, min_count=bigram_mincount, threshold=40)

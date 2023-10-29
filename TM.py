@@ -14,7 +14,6 @@ import tqdm
 import pandas as pd
 import matplotlib.pyplot as plt
 import pandas as pd
-import requests
 import numpy as np
 from bs4 import BeautifulSoup
 from gensim import corpora
@@ -32,6 +31,8 @@ from sklearn.model_selection import RandomizedSearchCV
 import hdbscan
 from sklearn.metrics import make_scorer
 import umap.umap_ as umap
+from transformers import BertTokenizer, BertModel
+from langdetect import detect
 
 # nltk.download('stopwords')
 # nltk.download('wordnet')
@@ -149,8 +150,14 @@ class Topic_Model(object):
 
         elif method == 'BERT':
             print('Getting vector representations for BERT ...')
-            tokenizer = AutoTokenizer.from_pretrained("DeepPavlov/rubert-base-cased-sentence")
-            model = AutoModel.from_pretrained("DeepPavlov/rubert-base-cased-sentence")
+            #for russian language
+            lang = detect(x_train_rus[0])
+            if lang == 'ru':
+                tokenizer = AutoTokenizer.from_pretrained("DeepPavlov/rubert-base-cased-sentence")
+                model = AutoModel.from_pretrained("DeepPavlov/rubert-base-cased-sentence")
+            else:
+                tokenizer = BertTokenizer.from_pretrained('bert-base-multilingual-cased')
+                model = BertModel.from_pretrained("bert-base-multilingual-cased")                          
             model= model.cpu() 
             x_train_rus_clear = []
             for i in x_train_rus:
@@ -454,6 +461,7 @@ class Topic_Model(object):
           print('NPMI : ', get_coherence(list(docs_df['Topic']), x_rus, measure='c_npmi'))
           print('Topic_diversity : ', topic_diversity(topic_words))
           print('_________________________________________________________________')
+          print(top_n_words)
           return top_n_words
 
 

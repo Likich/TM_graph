@@ -7,19 +7,11 @@ def make_graph_big(method, k):
     import warnings
     import random
     from googletrans import Translator
-    translator = Translator()
+
     warnings.filterwarnings('ignore')
 
     dictionary = corpora.Dictionary.load('/home/likich/TM_graph/dictionary')
-    corpus = corpora.MmCorpus('/home/likich/TM_graph/corpus')  
-
-    # print('Please choose either BERT or LDA')
-
-    # method = input()
-
-    # print('Please choose the number of topics.')
-
-    # k = input()
+    corpus = corpora.MmCorpus('/home/likich/TM_graph/corpus')
 
     number_of_colors = 1000
     color_pallette = ["#"+''.join([random.choice('0123456789ABCDEF') for j in range(6)])
