@@ -18,19 +18,35 @@ def index():
   return render_template('index.html')
 
 	
-@app.route('/uploader', methods = ['GET', 'POST'])
-def upload_file():
-   if request.method == 'POST':
-      f = request.files['file']
-      f.save(secure_filename(f.filename))
-      return 'File uploaded successfully. You can go back to the previous page.'
+# @app.route('/uploader', methods = ['GET', 'POST'])
+# def upload_file():
+#    if request.method == 'POST':
+#       f = request.files['file']
+#       f.save(secure_filename(f.filename))
+#       return 'File uploaded successfully'
 
-@app.route('/uploader2', methods = ['GET', 'POST'])
-def upload_file2():
-   if request.method == 'POST':
-      f = request.files['file']
-      f.save(secure_filename(f.filename))
-      return 'File uploaded successfully. You can go back to the previous page.'
+# @app.route('/uploader2', methods = ['GET', 'POST'])
+# def upload_file2():
+#    if request.method == 'POST':
+#       f = request.files['file']
+#       f.save(secure_filename(f.filename))
+#       return 'File uploaded successfully'
+
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    if 'file' not in request.files:
+        return 'No file part'
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return 'No selected file'
+
+    if file:
+        filename = secure_filename(file.filename)
+        file.save(filename)
+        return 'File uploaded successfully.'
 
 
 @app.route('/my-link/')
@@ -44,14 +60,14 @@ def my_link():
   elif lang == 'en':
     lemmatize_all_eng('text.txt')
 
-  return 'Your file is lemmatized, now you can go back to the main page and click preprocess.'
+  return 'Your file is lemmatized, now you can click preprocess.'
 
 @app.route('/my-preprocess/')
 def my_preprocess():
-  print ('I got clicked!')
-  res = preprocess_all('interviews.txt', 'additional_stopwords.txt')
-  res = jsonify(res.to_dict(orient='records'))
-  return res
+    print('I got clicked!')
+    # Assuming preprocess_all returns a pandas DataFrame or similar
+    data = preprocess_all('text.txt', 'additional_stopwords.txt').to_dict(orient='records')
+    return render_template('preprocess_table.html', data=data)
 
 @app.route("/graph/", methods = ['POST', 'GET'])
 def data():

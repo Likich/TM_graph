@@ -5,6 +5,7 @@
 
     <title>Topic modeling graph</title>
     <link rel="stylesheet" href="static/data/rubic.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     </head>
     <body>
@@ -36,19 +37,28 @@
     <meta charset=utf-8> </head>
     <body>
     <h1>Run the model</h1>
-    <form action = "http://localhost:5000/uploader" method = "POST" 
-            enctype = "multipart/form-data">
-    <input type = "file" name = "file" />
-    <input type = "submit"/>
-    </form>   
-    <form action = "http://localhost:5000/uploader2" method = "POST" 
-            enctype = "multipart/form-data">
-    <input type = "file" name = "file" />
-    <input type = "submit"/>
-    <br><br>
-    </form>               
-    <p class="btnwrap"> <button>  <a href="/my-link/">Lemmatize</a></button> </p>
-    <p class="btnwrap"><button> <a href="/my-preprocess/">Preprocess</a></button></p>
+
+
+    <form>
+        <input type="file" id="fileInput" />
+        <button onclick="uploadFile('fileInput')">Upload File</button>
+    </form>
+    
+    <form>
+        <input type="file" id="fileInput2" />
+        <button onclick="uploadFile('fileInput2')">Upload Additional Stopwords</button>
+    </form>
+    
+    <br>
+
+
+
+    <!-- <p class="btnwrap"> <button>  <a href="/my-link/">Lemmatize</a></button> </p>-->
+    
+    <p class="btnwrap"> <button onclick="lemmatize()">Lemmatize</button> </p>
+    <!-- <p class="btnwrap"><button onclick="preprocess()">Preprocess</button></p> -->
+    <p class="btnwrap"><button> <a href="/my-preprocess/">Preprocess</a></button></p> 
+
         
 
     <form action="/graph/" method = "POST">
@@ -72,4 +82,37 @@
 		});
 	</script>
 
+    <script>
+        function lemmatize() {
+            $.get("/my-link", function(data) {
+                alert(data); // You can display a success message to the user if needed
+            });
+        }
+
+    </script>
+
+    <script>
+        function uploadFile(inputId) {
+            var fileInput = document.getElementById(inputId);
+            var file = fileInput.files[0];
+    
+            var formData = new FormData();
+            formData.append("file", file);
+    
+            $.ajax({
+                url: "/upload",
+                type: "POST",
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    alert(data); // Display a success message to the user if needed
+                }
+            });
+        }
+    </script>
+    
+
+
     </body>
+
