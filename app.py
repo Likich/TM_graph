@@ -35,14 +35,14 @@ def upload_file2():
 
 @app.route('/my-link/')
 def my_link():
-  with open('interviews.txt') as f:
+  with open('text.txt') as f:
     first_line = f.readline()
   result = translator.translate(first_line)
   lang = result.src
   if lang == 'ru':
-    lemmatize_all('interviews.txt')
+    lemmatize_all('text.txt')
   elif lang == 'en':
-    lemmatize_all_eng('interviews.txt')
+    lemmatize_all_eng('text.txt')
 
   return 'Your file is lemmatized, now you can go back to the main page and click preprocess.'
 
