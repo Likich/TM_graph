@@ -6,7 +6,7 @@ def make_graph_big(method, k):
     import json
     import warnings
     import random
-    from googletrans import Translator
+    # from googletrans import Translator
 
     warnings.filterwarnings('ignore')
 

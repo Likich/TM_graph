@@ -1,42 +1,39 @@
 import numpy as np
 from collections import Counter
 from sklearn.feature_extraction.text import CountVectorizer
-from sklearn.feature_extraction.text import TfidfVectorizer
+# from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
-from IPython.display import display, HTML
-from sklearn.decomposition import LatentDirichletAllocation
-from sklearn.decomposition import NMF
-import gensim
-from datetime import timedelta
-import stop_words
-from gensim.models import CoherenceModel
+# from IPython.display import display, HTML
+# from sklearn.decomposition import LatentDirichletAllocation
+# from sklearn.decomposition import NMF
+# import gensim
+# from datetime import timedelta
+# import stop_words
+# from gensim.models import CoherenceModel
 import tqdm
-import pandas as pd
-import matplotlib.pyplot as plt
-import pandas as pd
-import numpy as np
-from bs4 import BeautifulSoup
-from gensim import corpora
-from gensim.models import CoherenceModel
-from tqdm.notebook import tqdm 
-import keras
-from keras.layers import Input, Dense
-from keras.models import Model
+# from bs4 import BeautifulSoup
+# from gensim import corpora
+# from gensim.models import CoherenceModel
+# from tqdm.notebook import tqdm 
+# import keras
+# from keras.layers import Input, Dense
+# from keras.models import Model
 from sklearn.model_selection import train_test_split
-from transformers import AutoTokenizer, AutoModel
-from torch.utils.data import Dataset, DataLoader
-import torch
+# from transformers import AutoTokenizer, AutoModel
+# from torch.utils.data import Dataset, DataLoader
+# import torch
 from sklearn.cluster import KMeans
-from sklearn.model_selection import RandomizedSearchCV
+# from sklearn.model_selection import RandomizedSearchCV
 import hdbscan
-from sklearn.metrics import make_scorer
+# from sklearn.metrics import make_scorer
 import umap.umap_ as umap
 from transformers import BertTokenizer, BertModel
 from langdetect import detect
+import nltk
 
-# nltk.download('stopwords')
-# nltk.download('wordnet')
-# nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('punkt')
 
 class Autoencoder:
     """
@@ -110,7 +107,7 @@ class Topic_Model(object):
         import torch
         import numpy as np
         from torch.utils.data import Dataset, DataLoader
-        from tqdm.notebook import tqdm 
+        import tqdm 
 
 
         """Get vector representations from selected methods"""
@@ -178,7 +175,7 @@ class Topic_Model(object):
                   return str(self.queries[idx])
             data_loader = DataLoader(InterviewDataset(x_train_rus_clear), batch_size=1, shuffle=False)
             vecs = []
-            for batch in enumerate(tqdm(data_loader)):
+            for batch in enumerate(data_loader):
                 batch_emdg = embed_bert_cls(batch[1], model, tokenizer)
                 vecs.append(batch_emdg)
             vecs_bert = np.concatenate(vecs, axis=0 )
