@@ -51,16 +51,15 @@ def upload():
 
 @app.route('/my-link/')
 def my_link():
-  with open('text.txt') as f:
-    first_line = f.readline()
-  result = translator.translate(first_line)
-  lang = result.src
-  if lang == 'ru':
-    lemmatize_all('text.txt')
-  elif lang == 'en':
-    lemmatize_all_eng('text.txt')
+    include_interviewer = request.args.get('includeInterviewer') == 'true'
 
-  return 'Your file is lemmatized, now you can click preprocess.'
+    with open('text.txt') as f:
+        first_line = f.readline()
+    result = translator.translate(first_line)
+    lang = result.src
+    lemmatize_all('text.txt', include_interviewer, language=lang)
+
+    return 'Your file is lemmatized, now you can click preprocess.'
 
 @app.route('/my-preprocess/')
 def my_preprocess():
