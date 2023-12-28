@@ -30,50 +30,51 @@ import umap.umap_ as umap
 from transformers import BertTokenizer, BertModel
 from langdetect import detect
 import nltk
+from Preprocess import getText
 
 nltk.download('stopwords')
 nltk.download('wordnet')
 nltk.download('punkt')
 
-class Autoencoder:
-    """
-    Autoencoder for learning latent space representation
-    architecture simplified for only one hidden layer
-    """
+# class Autoencoder:
+#     """
+#     Autoencoder for learning latent space representation
+#     architecture simplified for only one hidden layer
+#     """
     
-    def __init__(self, latent_dim=32, activation='relu', epochs=200, batch_size=128):
-        self.latent_dim = latent_dim
-        self.activation = activation
-        self.epochs = epochs
-        self.batch_size = batch_size
-        self.autoencoder = None
-        self.encoder = None
-        self.decoder = None
-        self.his = None
+#     def __init__(self, latent_dim=32, activation='relu', epochs=200, batch_size=128):
+#         self.latent_dim = latent_dim
+#         self.activation = activation
+#         self.epochs = epochs
+#         self.batch_size = batch_size
+#         self.autoencoder = None
+#         self.encoder = None
+#         self.decoder = None
+#         self.his = None
 
-    def _compile(self, input_dim):
-        """
-        compile the computational graph
-        """
-        input_vec =  keras.layers.Input(shape=(input_dim,))
-        encoded =  keras.layers.Dense(self.latent_dim, activation=self.activation)(input_vec)
-        decoded =  keras.layers.Dense(input_dim, activation=self.activation)(encoded)
-        self.autoencoder = keras.models.Model(input_vec, decoded)
-        self.encoder = keras.models.Model(input_vec, encoded)
-        encoded_input =  keras.layers.Input(shape=(self.latent_dim,))
-        decoder_layer = self.autoencoder.layers[-1]
-        self.decoder = keras.models.Model(encoded_input, self.autoencoder.layers[-1](encoded_input))
-        self.autoencoder.compile(optimizer='adam', loss=keras.losses.mean_squared_error)
+#     def _compile(self, input_dim):
+#         """
+#         compile the computational graph
+#         """
+#         input_vec =  keras.layers.Input(shape=(input_dim,))
+#         encoded =  keras.layers.Dense(self.latent_dim, activation=self.activation)(input_vec)
+#         decoded =  keras.layers.Dense(input_dim, activation=self.activation)(encoded)
+#         self.autoencoder = keras.models.Model(input_vec, decoded)
+#         self.encoder = keras.models.Model(input_vec, encoded)
+#         encoded_input =  keras.layers.Input(shape=(self.latent_dim,))
+#         decoder_layer = self.autoencoder.layers[-1]
+#         self.decoder = keras.models.Model(encoded_input, self.autoencoder.layers[-1](encoded_input))
+#         self.autoencoder.compile(optimizer='adam', loss=keras.losses.mean_squared_error)
 
-    def fit(self, X):
-        if not self.autoencoder:
-            self._compile(X.shape[1])
-        X_train, X_test = train_test_split(X)
-        self.his = self.autoencoder.fit(X_train, X_train,
-                                        epochs=200,
-                                        batch_size=128,
-                                        shuffle=True,
-                                        validation_data=(X_test, X_test), verbose=0)
+#     def fit(self, X):
+#         if not self.autoencoder:
+#             self._compile(X.shape[1])
+#         X_train, X_test = train_test_split(X)
+#         self.his = self.autoencoder.fit(X_train, X_train,
+#                                         epochs=200,
+#                                         batch_size=128,
+#                                         shuffle=True,
+#                                         validation_data=(X_test, X_test), verbose=0)
 class Topic_Model(object):
     def __init__(self, k=10, method='LDA' ):
         """
@@ -83,8 +84,6 @@ class Topic_Model(object):
         if method not in {'TFIDF', 'LDA', 'BERT', 'BERT_LDA', 'BERT_LDA_Kmeans', 'BERT_TFIDF_HDBSCAN', 'BERT_LDA_HDBSCAN', 'BERT_TFIDF_Kmeans'}:
             raise Exception('Invalid method!')
         print('Initialized')
-        
-        
         self.k = k
         # self.dictionary = dictionary
         # self.corpus = corpus
@@ -96,7 +95,6 @@ class Topic_Model(object):
         self.method = method
         self.AE = None
         np.random.seed(100)
-
        
     def vectorize(self, method=None):
         from gensim import corpora
@@ -109,10 +107,9 @@ class Topic_Model(object):
         from torch.utils.data import Dataset, DataLoader
         import tqdm 
 
-
         """Get vector representations from selected methods"""
-        dictionary = corpora.Dictionary.load('/home/likich/TM_graph/dictionary')
-        corpus = corpora.MmCorpus('/home/likich/TM_graph/corpus')
+        dictionary = corpora.Dictionary.load('dictionary')
+        corpus = corpora.MmCorpus('corpus')
         with open("x_train_rus", "rb") as fp:   # Unpickling
             x_train_rus = pickle.load(fp)
         if method is None:
@@ -182,21 +179,21 @@ class Topic_Model(object):
             print('Getting vector representations for BERT. Done!')
             return vecs_bert
             
-        elif method == 'BERT_LDA':
-          print('Getting vector representations')
+        # elif method == 'BERT_LDA':
+        #   print('Getting vector representations')
 
-          vec_lda = self.vectorize(method='LDA')
-          vec_bert = self.vectorize(method='BERT')
-          vec_ldabert = np.c_[vec_lda * self.gamma, vec_bert]
-          self.vec['LDA_BERT_FULL'] = vec_ldabert
-          if not self.AE:
-              self.AE = Autoencoder()
-              print('Fitting Autoencoder ...')
-              self.AE.fit(vec_ldabert)
-              print('Fitting Autoencoder Done!')
-          vec = self.AE.encoder.predict(vec_ldabert)
-          print('Getting vector representations. Done!')
-          return vec
+        #   vec_lda = self.vectorize(method='LDA')
+        #   vec_bert = self.vectorize(method='BERT')
+        #   vec_ldabert = np.c_[vec_lda * self.gamma, vec_bert]
+        #   self.vec['LDA_BERT_FULL'] = vec_ldabert
+        #   if not self.AE:
+        #       self.AE = Autoencoder()
+        #       print('Fitting Autoencoder ...')
+        #       self.AE.fit(vec_ldabert)
+        #       print('Fitting Autoencoder Done!')
+        #   vec = self.AE.encoder.predict(vec_ldabert)
+        #   print('Getting vector representations. Done!')
+        #   return vec
 
     def fit(self, corpus, dictionary, method=None, cluster_model=None):
         from gensim import corpora
@@ -206,8 +203,8 @@ class Topic_Model(object):
         import pickle
         import numpy as np
 
-        dictionary = corpora.Dictionary.load('/home/likich/TM_graph/dictionary')
-        corpus = corpora.MmCorpus('/home/likich/TM_graph/corpus')  
+        dictionary = corpora.Dictionary.load('dictionary')
+        corpus = corpora.MmCorpus('corpus')  
         with open("x_train_rus", "rb") as fp:   # Unpickling
             x_train_rus = pickle.load(fp)     
         x_train_rus_clear = []
@@ -424,6 +421,53 @@ class Topic_Model(object):
               word_counts = list(map(lambda x: sorted(x, key=lambda x: x[1], reverse=True), word_counts))
               topics = list(map(lambda x: list(map(lambda x: x[0], x[:10])), word_counts))
               return topics
+        
+
+          print(docs_df['Doc'].iloc[0])
+
+          def extract_top_documents(docs_df, n=20):
+                top_docs_per_topic = {}
+
+                # Group by topic and rank documents within each topic
+                for topic in docs_df['Topic'].unique():
+                    if topic == -1:
+                        continue  # Skip the noise (-1) cluster
+
+                    # Filter documents belonging to the current topic
+                    topic_docs = docs_df[docs_df['Topic'] == topic]
+
+                    # Here, I'm using a simple length-based heuristic. 
+                    # You might replace this with a more sophisticated ranking based on HDBSCAN probabilities or other metrics.
+                    topic_docs['Doc_Length'] = topic_docs['Doc'].apply(len)
+                    top_docs = topic_docs.nlargest(n, 'Doc_Length')
+
+                    top_docs_per_topic[topic] = top_docs
+
+                return top_docs_per_topic
+
+            # Call the function to get the top documents for each topic
+          df_raw = pd.read_csv('df_raw.csv')
+
+          text = getText('text.txt')
+          paragraphs = text.split('\n')
+          df_raw = pd.DataFrame(paragraphs,
+                            columns = ['paragraphs'],
+                            index = range(1, len(paragraphs)+1))
+
+          print(len(df_raw))
+        #   print(len(x_train_rus))  
+          with open("x_train_rus_alligned", "rb") as fp:   # Unpickling
+            x_train_rus_alligned = pickle.load(fp)    
+          print('x_train_rus_alligned', len(x_train_rus_alligned))
+          top_documents_per_topic = extract_top_documents(docs_df, n=10)
+          for topic, top_docs in top_documents_per_topic.items():
+                print(f"Top documents for Topic {topic}:")
+                for index, row in top_docs.iterrows(): #row['Doc'] - lemmatized phrase
+                    for i in range(len(x_train_rus_alligned)):
+                        if x_train_rus_alligned[i] == row['Doc']:
+                            print(f"Document: {df_raw['paragraphs'].iloc[i]}")  
+                print("\n")
+
 
           def get_coherence(labels, token_lists, measure='c_v'):
               topics = get_topic_words(token_lists, labels)

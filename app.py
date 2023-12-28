@@ -6,7 +6,8 @@ from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 from Make_graph_from_TM import make_graph_big, translate_to_eng
 import shutil
-import googletrans
+import pickle
+import pandas as pd
 from googletrans import Translator
 translator = Translator()
 
@@ -16,6 +17,20 @@ app.config['JSON_AS_ASCII'] = False
 @app.route('/')
 def index():
   return render_template('index.html')
+
+# Handle the GET request for node information
+@app.route('/node-info/<node_name>', methods=['GET'])
+def get_node_info(node_name):
+    # Retrieve information based on the node_id (replace with your logic)
+    with open('x_train_rus_alligned', 'rb') as file:
+      text = pickle.load(file)
+    inds = [i for i in range(len(text)) if node_name in text[i].split()]
+    df = pd.read_csv('df_raw.csv')
+    print(df.head())
+    # output = '<br>'.join([])
+    output = '<br>'.join(['Document {}: {}'.format(l, df['paragraphs'].values[l]) for l in inds])
+    node_info = 'Node: <b>{node_id}</b><br>Output:<br>{output}'.format(node_id=node_name, output=output) # get_node_information(node_id)
+    return node_info
 
 	
 # @app.route('/uploader', methods = ['GET', 'POST'])
@@ -51,15 +66,16 @@ def upload():
 
 @app.route('/my-link/')
 def my_link():
-    include_interviewer = request.args.get('includeInterviewer') == 'true'
+  with open('text.txt') as f:
+    first_line = f.readline()
+  result = translator.translate(first_line, dest='en')
+  lang = result.src
+  if lang == 'ru':
+    lemmatize_all('text.txt')
+  elif lang == 'en':
+    lemmatize_all_eng('text.txt')
 
-    with open('text.txt') as f:
-        first_line = f.readline()
-    result = translator.translate(first_line)
-    lang = result.src
-    lemmatize_all('text.txt', include_interviewer, language=lang)
-
-    return 'Your file is lemmatized, now you can click preprocess.'
+  return 'Your file is lemmatized, now you can click preprocess.'
 
 @app.route('/my-preprocess/')
 def my_preprocess():

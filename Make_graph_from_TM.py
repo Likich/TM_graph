@@ -10,8 +10,8 @@ def make_graph_big(method, k):
 
     warnings.filterwarnings('ignore')
 
-    dictionary = corpora.Dictionary.load('/home/likich/TM_graph/dictionary')
-    corpus = corpora.MmCorpus('/home/likich/TM_graph/corpus')
+    dictionary = corpora.Dictionary.load('dictionary')
+    corpus = corpora.MmCorpus('corpus')
 
     number_of_colors = 1000
     color_pallette = ["#"+''.join([random.choice('0123456789ABCDEF') for j in range(6)])
