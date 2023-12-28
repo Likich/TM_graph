@@ -10,7 +10,7 @@
     </head>
     <body>
     <a href="https://github.com/Likich/TM_graph"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/38ef81f8aca64bb9a64448d0d70f1308ef5341ab/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f6461726b626c75655f3132313632312e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_darkblue_121621.png"></a>
-    <h1>Auto-coding of semistructured interviews</h1>
+    <h1>Topic modeling graph</h1>
     <h3>Angelina Parfenova</h3>
 
 
@@ -51,17 +51,19 @@
     
     <br>
 
-
+    <form>
+        <!-- ... other form elements ... -->
+        <label for="includeInterviewer">Include Interviewer Phrases:</label>
+        <input type="checkbox" id="includeInterviewer" name="includeInterviewer" checked>
+        <br>
+        <button onclick="lemmatize()">Lemmatize</button>
+    </form>
 
     <!-- <p class="btnwrap"> <button>  <a href="/my-link/">Lemmatize</a></button> </p>-->
-    
-    <p class="btnwrap"> <button onclick="lemmatize()">Lemmatize</button> </p>
     <!-- <p class="btnwrap"><button onclick="preprocess()">Preprocess</button></p> -->
-    <p class="btnwrap"><button> <a href="/my-preprocess/">Preprocess</a></button></p> 
+    <p class="btnwrap"><button> <a href="/my-preprocess/">Preprocess</a></button></p>       
 
-        
-
-    <form action="/graph/" method = "POST">
+    <!-- <form action="/graph/" method = "POST">
             <p> Method:
             <select name="Method" id="s1">
             <option value="LDA" >LDA</option>
@@ -69,11 +71,29 @@
             <p>Number of Topics <input type = "value" name = "Topics number" /></p>
             <p><input type = "submit" value = "Submit" /></p>
             
-    </form>
+    </form> -->
         
+    <form id="graphForm" action="/graph/" method="POST">
+        <p>Method:
+            <select name="Method" id="s1">
+                <option value="LDA">LDA</option>
+                <option value="BERT">BERT</option>
+            </select>
+        </p>
+        <p>Max Number of Topics <input type="value" name="Topics number" /></p>
+        <p>
+            <input type="submit" value="Submit">
+                </div>
+            </div>
+        </p>
+    </form>
+    
     <div class="loader-wrapper">
-        <span class="loader"><span class="loader-inner"></span></span>
+        <div class="loader">
+            <div class="loader-inner"></div>
+        </div>
     </div>
+
       
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
 	<script>
@@ -84,8 +104,17 @@
 
     <script>
         function lemmatize() {
-            $.get("/my-link", function(data) {
-                alert(data); // You can display a success message to the user if needed
+            // Show the loader
+            $('.loader-wrapper').show();
+            var includeInterviewer = document.getElementById("includeInterviewer").checked;
+            $.get("/my-link", { includeInterviewer: includeInterviewer }, function(data) {
+                // Hide the loader when done
+                $('.loader-wrapper').hide();
+                alert('File is processed'); // Display the response message
+            }).fail(function() {
+                // Hide the loader even if there is an error
+                $('.loader-wrapper').hide();
+                alert("Error: Could not process the file.");
             });
         }
 
@@ -95,10 +124,8 @@
         function uploadFile(inputId) {
             var fileInput = document.getElementById(inputId);
             var file = fileInput.files[0];
-    
             var formData = new FormData();
             formData.append("file", file);
-    
             $.ajax({
                 url: "/upload",
                 type: "POST",
@@ -111,8 +138,52 @@
             });
         }
     </script>
-    
 
+    <script>
+        function showLoading() {
+            // Display the loading animation when the "Submit" button is clicked
+            $('.loader-wrapper').fadeIn("slow");
+            // You can add your processing logic here
+            // For example, make an AJAX request, and once it's complete, hide the loader.
+            $.ajax({
+                // Your AJAX configuration here
+            }).done(function (response) {
+                // Hide the loader after processing is complete
+                $('.loader-wrapper').fadeOut("slow");
+                // You can do more with the response if needed
+            });
+        }
+    </script>
+
+    <!-- <script>
+            $(document).ready(function() {
+                // Hide the loader on page load
+                $('.loader-wrapper').hide();
+            });
+            // Other JavaScript functions
+            $(document).ready(function() {
+            $("#graphForm").submit(function(event) {
+            event.preventDefault(); // Prevent the default form submission
+            $('.loader-wrapper').show(); // Show the loader
+            var formData = $(this).serialize(); // Serialize the form data
+            $.ajax({
+                url: '/graph/',
+                type: 'POST',
+                data: formData,
+                success: function(response) {
+                    // The server will return the HTML content of 'make_graph.html'
+                    // Replace the current page content or redirect
+                    window.location.href = '/graph/'; // Redirect to the graph page
+                },
+                error: function() {
+                    // Handle errors
+                    $('.loader-wrapper').hide();
+                    alert('Error: Could not process the request.');
+                }
+            });
+        });
+    });
+        </script> -->
 
     </body>
 

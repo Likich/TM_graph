@@ -55,6 +55,7 @@ var svg = d3.select("body").append("svg")
     .attr("width", width)
     .attr("height", height);
 
+    
 var force = d3.layout.force()
     .gravity(.05)
     .distance(100)
@@ -98,6 +99,35 @@ d3.json(("/static/data/graph.json"), function(json) {
 
     node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
   });
+  // Add an event listener for node clicks
+  node.on("click", function(d) {
+      console.log('data from click')
+      console.log(d)
+      // Make an AJAX request to the server with the node information
+      $.ajax({
+          url: '/node-info/' + encodeURIComponent(d.name), // Update with your server endpoint
+          method: 'GET', // Change to 'GET' or 'POST' depending on your server setup
+          contentType: 'application/json',
+          data: JSON.stringify({ nodeName: d.name }), // Send node information to the server
+          success: function(response) {
+            console.log('response:')
+              console.log(response)
+              // Update the content of the node-info div with the server response
+              $('#node-info').html(response);
+          },
+          error: function(error) {
+              console.error('Error fetching node information:', error);
+          }
+      });
 });
 
+});
+
+
+
 </script>
+
+<div id="node-info"></div>
+
+</body>
+</html>
