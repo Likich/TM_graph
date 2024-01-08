@@ -30,6 +30,10 @@ def lemmatize_all(text_file, include_interviewer=True):
     df = pd.DataFrame(paragraphs,
                     columns = ['paragraphs'],
                     index = range(1, len(paragraphs)+1))
+    df = df.drop_duplicates()
+
+    # Resetting index after dropping duplicates
+    df = df.reset_index(drop=True)
     df.to_csv('df_raw.csv')
     df['paragraphs'] = df['paragraphs'].str.lower()
     
@@ -107,6 +111,10 @@ def lemmatize_all_eng(text_file, include_interviewer=True):
     df = pd.DataFrame(paragraphs,
                     columns = ['paragraphs'],
                     index = range(1, len(paragraphs)+1))
+    df = df.drop_duplicates()
+
+    # Resetting index after dropping duplicates
+    df = df.reset_index(drop=True)
     df.to_csv('df_raw.csv')
     df['paragraphs'] = df['paragraphs'].str.lower()
     def delete_punctuation(text):
