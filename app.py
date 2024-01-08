@@ -119,4 +119,4 @@ def my_translate():
   return render_template('make_graph.html')
 
 if __name__ == '__main__':
-  app.run(debug=True)
+  app.run(debug=True, port=5001)

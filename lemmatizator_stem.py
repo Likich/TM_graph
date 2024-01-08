@@ -30,7 +30,9 @@ def lemmatize_all(text_file, include_interviewer=True):
     df = pd.DataFrame(paragraphs,
                     columns = ['paragraphs'],
                     index = range(1, len(paragraphs)+1))
+    df.to_csv('df_raw.csv')
     df['paragraphs'] = df['paragraphs'].str.lower()
+    
 
     def delete_punctuation(text):
         clear_text = ""
@@ -76,6 +78,9 @@ def lemmatize_all(text_file, include_interviewer=True):
     df['paragraphs'] = df['paragraphs'].apply(delete_stop_words)
     df['paragraphs'] = df['paragraphs'].apply(delete_eng)
     print('Your file is lemmatized. Please find enclosed interview_lemmatized.xlsx')
+
+
+
     return df.to_excel('interview_lemmatized.xlsx')
 
 
@@ -102,6 +107,7 @@ def lemmatize_all_eng(text_file, include_interviewer=True):
     df = pd.DataFrame(paragraphs,
                     columns = ['paragraphs'],
                     index = range(1, len(paragraphs)+1))
+    df.to_csv('df_raw.csv')
     df['paragraphs'] = df['paragraphs'].str.lower()
     def delete_punctuation(text):
         clear_text = ""
