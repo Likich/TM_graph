@@ -13,7 +13,7 @@ additional_stopwords = read_additional_stopwords('additional_stopwords.txt')
 
 
 
-def preprocess_all(text_files, add_stop_words):
+def preprocess_all(text_files, additional_stopwords):
   import nltk
   import gensim
   import stop_words
@@ -29,7 +29,7 @@ def preprocess_all(text_files, add_stop_words):
   en = stop_words.get_stop_words('english')
   all_sw = rus + en
   additional = ['инт', 'инф']
-  additional_stopwords = read_additional_stopwords('additional_stopwords.txt')
+  additional_stopwords = read_additional_stopwords(additional_stopwords)
   all_sw += additional
   all_sw += additional_stopwords
 
@@ -134,7 +134,7 @@ def preprocess_all(text_files, add_stop_words):
       en = stop_words.get_stop_words('english')
       all_sw = rus + en
       additional = ['инт', 'инф']
-      additional_stopwords = read_additional_stopwords('additional_stopwords.txt')
+      additional_stopwords = read_additional_stopwords(additional_stopwords)
       all_sw += additional
       all_sw += additional_stopwords
       print(all_sw)
