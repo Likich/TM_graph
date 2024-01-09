@@ -9,6 +9,7 @@ import shutil
 import pickle
 import pandas as pd
 from googletrans import Translator
+import os
 translator = Translator()
 
 app = Flask(__name__)
@@ -117,4 +118,8 @@ def my_translate():
   translate_to_eng(clear_nodes, clear_links)
   shutil.move("graph.json", "static/data/graph.json")
   return render_template('make_graph.html')
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8080)) # Default to 8080 if PORT not set
+    app.run(debug=False, host='0.0.0.0', port=port)
 
