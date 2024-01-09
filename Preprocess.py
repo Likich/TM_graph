@@ -16,7 +16,6 @@ additional_stopwords = read_additional_stopwords('additional_stopwords.txt')
 def preprocess_all(text_files, add_stop_words):
   import nltk
   import gensim
-  import stop_words
   import pandas as pd
   import nltk.data
   from gensim import corpora
@@ -55,7 +54,6 @@ def preprocess_all(text_files, add_stop_words):
     def text_to_array(length_restrict, lemmatized_df):
       ''' length_restrict - the minimum length of the word to leave in the text'''
       x_rus = []
-      print(len(lemmatized_df))
       for i in range(len(lemmatized_df)):  
         string_spl = str(lemmatized_df['paragraphs'].iloc[i]).split()
         for i in string_spl:
@@ -117,7 +115,6 @@ def preprocess_all(text_files, add_stop_words):
 
   df_raw, df_counts, df_counts_new, x_train_rus_alligned, x_rus_alligned, dictionary, corpus = preprocess(text_files, 'interview_lemmatized.xlsx', 2, 3, all_sw)
   print('Here is your words frequencies. Please check what words you want to add to stop list and add them to additional stopwords list.')
-  print(len(x_train_rus_alligned))
   # print(df_counts_new.head(20))
 
 
@@ -137,7 +134,6 @@ def preprocess_all(text_files, add_stop_words):
       additional_stopwords = read_additional_stopwords('additional_stopwords.txt')
       all_sw += additional
       all_sw += additional_stopwords
-      print(all_sw)
 
       def getText(text_file):
         with open(text_file) as f:
@@ -216,7 +212,6 @@ def preprocess_all(text_files, add_stop_words):
         return x_train_rus, dictionary, corpus
       print('Purifying the dataset with additional stop words...')
       x_rus_c = purification(x_rus)
-      print(x_rus_c)
       print('Constructing the corpus...')
       x_train_rus, dictionary, corpus = make_corpus(x_rus_c, bigram_mincount)
       united =  []

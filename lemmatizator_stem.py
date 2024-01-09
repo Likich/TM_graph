@@ -135,7 +135,7 @@ def lemmatize_all_eng(text_file, include_interviewer=True):
 
     def lemmatize(text):
         word_list = nltk.word_tokenize(text)
-        print(word_list)
+        # print(word_list)
         return ' '.join([lemmatizer.lemmatize(w) for w in word_list])
     df['paragraphs'] = df['paragraphs'].apply(lemmatize)
     en = stop_words.get_stop_words('english')

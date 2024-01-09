@@ -32,9 +32,9 @@ from langdetect import detect
 import nltk
 from Preprocess import getText
 
-nltk.download('stopwords')
-nltk.download('wordnet')
-nltk.download('punkt')
+# nltk.download('stopwords')
+# nltk.download('wordnet')
+# nltk.download('punkt')
 
 # class Autoencoder:
 #     """
@@ -267,13 +267,13 @@ class Topic_Model(object):
                       count += 1
                   return kl_div / count
 
-              print('_________________________________________________________________')
-              print('C_v coherence: ', compute_coherence(self.ldamodel, dictionary, 'c_v'))
-              print('U_mass coherence: ', compute_coherence(self.ldamodel, dictionary, 'u_mass'))
-              print('UCI : ', compute_coherence(self.ldamodel, dictionary, 'c_uci'))
-              print('NPMI : ', compute_coherence(self.ldamodel, dictionary, 'c_npmi'))
-              print('Topic_diversity :', topic_diversity(topic_words))
-              print('Kullback-Leibler Divergence :', Kullback_Leibler(self.ldamodel))
+            #   print('_________________________________________________________________')
+            #   print('C_v coherence: ', compute_coherence(self.ldamodel, dictionary, 'c_v'))
+            #   print('U_mass coherence: ', compute_coherence(self.ldamodel, dictionary, 'u_mass'))
+            #   print('UCI : ', compute_coherence(self.ldamodel, dictionary, 'c_uci'))
+            #   print('NPMI : ', compute_coherence(self.ldamodel, dictionary, 'c_npmi'))
+            #   print('Topic_diversity :', topic_diversity(topic_words))
+            #   print('Kullback-Leibler Divergence :', Kullback_Leibler(self.ldamodel))
               return topic_words, self.ldamodel.print_topics(-1)
                 
         # Default clustering method
@@ -327,13 +327,13 @@ class Topic_Model(object):
                   td = len(unique_words) / (topk * len(topic_words))
                   return td
 
-          print('_________________________________________________________________')
-          print('C_v coherence: ', get_coherence(cm.labels_, x_rus, measure='c_v'))
-          print('U_mass coherence: ', get_coherence(cm.labels_, x_rus, measure='u_mass'))
-          print('UCI : ', get_coherence(cm.labels_, x_rus, measure='c_uci'))
-          print('NPMI : ', get_coherence(cm.labels_, x_rus, measure='c_npmi'))
-          print('Topic_diversity : ', topic_diversity(topics))
-          print('_________________________________________________________________')
+        #   print('_________________________________________________________________')
+        #   print('C_v coherence: ', get_coherence(cm.labels_, x_rus, measure='c_v'))
+        #   print('U_mass coherence: ', get_coherence(cm.labels_, x_rus, measure='u_mass'))
+        #   print('UCI : ', get_coherence(cm.labels_, x_rus, measure='c_uci'))
+        #   print('NPMI : ', get_coherence(cm.labels_, x_rus, measure='c_npmi'))
+        #   print('Topic_diversity : ', topic_diversity(topics))
+        #   print('_________________________________________________________________')
 
           return df_topic_keywords
 
@@ -495,14 +495,14 @@ class Topic_Model(object):
           
           with open("x_rus", "rb") as fp:   # Unpickling
              x_rus = pickle.load(fp)
-          print('_________________________________________________________________')
-          print('C_v coherence: ', get_coherence(list(docs_df['Topic']), x_rus, measure='c_v'))
-          print('U_mass coherence: ', get_coherence(list(docs_df['Topic']), x_rus, measure='u_mass'))
-          print('UCI : ', get_coherence(list(docs_df['Topic']), x_rus, measure='c_uci'))
-          print('NPMI : ', get_coherence(list(docs_df['Topic']), x_rus, measure='c_npmi'))
-          print('Topic_diversity : ', topic_diversity(topic_words))
-          print('_________________________________________________________________')
-          print(top_n_words)
+        #   print('_________________________________________________________________')
+        #   print('C_v coherence: ', get_coherence(list(docs_df['Topic']), x_rus, measure='c_v'))
+        #   print('U_mass coherence: ', get_coherence(list(docs_df['Topic']), x_rus, measure='u_mass'))
+        #   print('UCI : ', get_coherence(list(docs_df['Topic']), x_rus, measure='c_uci'))
+        #   print('NPMI : ', get_coherence(list(docs_df['Topic']), x_rus, measure='c_npmi'))
+        #   print('Topic_diversity : ', topic_diversity(topic_words))
+        #   print('_________________________________________________________________')
+        #   print(top_n_words)
           return top_n_words
 
 
