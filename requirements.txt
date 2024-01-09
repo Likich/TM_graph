@@ -90,3 +90,4 @@ wcwidth==0.2.12
 websockets==8.1
 Werkzeug==2.0.3
 zipp==3.17.0
+gunicorn

@@ -118,5 +118,3 @@ def my_translate():
   shutil.move("graph.json", "static/data/graph.json")
   return render_template('make_graph.html')
 
-if __name__ == '__main__':
-  app.run(debug=True, port=5002)
