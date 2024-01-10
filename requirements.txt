@@ -1,6 +1,5 @@
 asttokens==2.4.1
 backcall==0.2.0
-beautifulsoup4==4.10.0
 certifi==2023.11.17
 chardet==3.0.4
 charset-normalizer==3.3.2
@@ -36,7 +35,6 @@ itsdangerous==2.1.2
 jedi==0.19.1
 Jinja2==3.1.2
 joblib==1.1.0
-keras==2.12.0
 kiwisolver==1.4.5
 langdetect==1.0.9
 llvmlite==0.41.1
@@ -65,7 +63,6 @@ python-dateutil==2.8.2
 pytz==2023.3.post1
 PyYAML==6.0.1
 regex==2023.10.3
-requests==2.31.0
 rfc3986==1.5.0
 sacremoses==0.1.1
 scikit-learn==1.0.2
@@ -78,7 +75,7 @@ stack-data==0.6.3
 stop-words==2018.7.23
 threadpoolctl==3.2.0
 tokenizers==0.15.0
-torch==1.11.0
+torch==1.11.0+cpu -f https://download.pytorch.org/whl/cpu/torch_stable.html
 tqdm==4.64.1
 traitlets==5.14.0
 transformers==4.17.0
