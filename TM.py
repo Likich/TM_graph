@@ -1,35 +1,13 @@
 import numpy as np
 from collections import Counter
 from sklearn.feature_extraction.text import CountVectorizer
-# from sklearn.feature_extraction.text import TfidfVectorizer
 import pandas as pd
-# from IPython.display import display, HTML
-# from sklearn.decomposition import LatentDirichletAllocation
-# from sklearn.decomposition import NMF
-# import gensim
-# from datetime import timedelta
-# import stop_words
-# from gensim.models import CoherenceModel
-import tqdm
-# from bs4 import BeautifulSoup
-# from gensim import corpora
-# from gensim.models import CoherenceModel
-# from tqdm.notebook import tqdm 
-# import keras
-# from keras.layers import Input, Dense
-# from keras.models import Model
 from sklearn.model_selection import train_test_split
-# from transformers import AutoTokenizer, AutoModel
-# from torch.utils.data import Dataset, DataLoader
-# import torch
 from sklearn.cluster import KMeans
-# from sklearn.model_selection import RandomizedSearchCV
 import hdbscan
-# from sklearn.metrics import make_scorer
 import umap.umap_ as umap
 from transformers import BertTokenizer, BertModel
 from langdetect import detect
-import nltk
 from Preprocess import getText
 
 # nltk.download('stopwords')
@@ -105,7 +83,6 @@ class Topic_Model(object):
         import torch
         import numpy as np
         from torch.utils.data import Dataset, DataLoader
-        import tqdm 
 
         """Get vector representations from selected methods"""
         dictionary = corpora.Dictionary.load('dictionary')
