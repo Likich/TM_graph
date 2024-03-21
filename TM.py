@@ -54,7 +54,7 @@ from Preprocess import getText
 #                                         shuffle=True,
 #                                         validation_data=(X_test, X_test), verbose=0)
 class Topic_Model(object):
-    def __init__(self, k=10, method='LDA' ):
+    def __init__(self, k=10, method='LDA', num_keywords=20 ):
         """
         :param k: number of topics
         :param method: method chosen for the topic model
@@ -72,6 +72,7 @@ class Topic_Model(object):
         self.vec = {}
         self.method = method
         self.AE = None
+        self.num_keywords = num_keywords
         np.random.seed(100)
        
     def vectorize(self, method=None):
@@ -155,22 +156,6 @@ class Topic_Model(object):
             vecs_bert = np.concatenate(vecs, axis=0 )
             print('Getting vector representations for BERT. Done!')
             return vecs_bert
-            
-        # elif method == 'BERT_LDA':
-        #   print('Getting vector representations')
-
-        #   vec_lda = self.vectorize(method='LDA')
-        #   vec_bert = self.vectorize(method='BERT')
-        #   vec_ldabert = np.c_[vec_lda * self.gamma, vec_bert]
-        #   self.vec['LDA_BERT_FULL'] = vec_ldabert
-        #   if not self.AE:
-        #       self.AE = Autoencoder()
-        #       print('Fitting Autoencoder ...')
-        #       self.AE.fit(vec_ldabert)
-        #       print('Fitting Autoencoder Done!')
-        #   vec = self.AE.encoder.predict(vec_ldabert)
-        #   print('Getting vector representations. Done!')
-        #   return vec
 
     def fit(self, corpus, dictionary, method=None, cluster_model=None):
         from gensim import corpora
@@ -215,7 +200,7 @@ class Topic_Model(object):
               num_topics = self.k
               topic_words = []
               for i in range(num_topics):
-                  tt = self.ldamodel.get_topic_terms(i,20)
+                  tt = self.ldamodel.get_topic_terms(i, self.num_keywords)
                   topic_words.append([dictionary[pair[0]] for pair in tt])
               def topic_diversity(topic_words):
                   topk = 10
@@ -341,7 +326,7 @@ class Topic_Model(object):
             return tf_idf, count
           
           tf_idf, count = c_tf_idf(docs_per_topic.Doc.values, m=len(x_train_rus_clear))
-          def extract_top_n_words_per_topic(tf_idf, count, docs_per_topic, n=20):
+          def extract_top_n_words_per_topic(tf_idf, count, docs_per_topic, n=self.num_keywords):
             words = count.get_feature_names()
             labels = list(docs_per_topic.Topic)
             tf_idf_transposed = tf_idf.T
@@ -358,7 +343,7 @@ class Topic_Model(object):
                             .sort_values("Size", ascending=False))
             return topic_sizes
           
-          top_n_words = extract_top_n_words_per_topic(tf_idf, count, docs_per_topic, n=20)
+          top_n_words = extract_top_n_words_per_topic(tf_idf, count, docs_per_topic, self.num_keywords)
           topic_sizes = extract_topic_sizes(docs_df) 
           
           #topic reduction
@@ -385,7 +370,7 @@ class Topic_Model(object):
             # Calculate new topic words
             m = len(x_train_rus_clear)
             tf_idf, count = c_tf_idf(docs_per_topic.Doc.values, m)
-            top_n_words = extract_top_n_words_per_topic(tf_idf, count, docs_per_topic, n=20)
+            top_n_words = extract_top_n_words_per_topic(tf_idf, count, docs_per_topic, self.num_keywords)
           
           topic_sizes = extract_topic_sizes(docs_df) 
           def get_topic_words(token_lists, labels, k=None):
@@ -402,7 +387,7 @@ class Topic_Model(object):
 
           print(docs_df['Doc'].iloc[0])
 
-          def extract_top_documents(docs_df, n=20):
+          def extract_top_documents(docs_df, n):
                 top_docs_per_topic = {}
 
                 # Group by topic and rank documents within each topic

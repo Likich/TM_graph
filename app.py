@@ -92,7 +92,8 @@ def data():
     if request.method == 'POST':
         method = request.form['Method']
         k = request.form['Topics number']
-        clear_nodes, clear_links = make_graph_big(method, k)
+        num_keywords = request.form['KeywordsNumber']
+        clear_nodes, clear_links = make_graph_big(method, k, int(num_keywords))
         shutil.move("graph.json", "static/data/graph.json")
         with open(r'clear_nodes', 'w') as fp:
           for item in clear_nodes: fp.write("%s\n" % item)
