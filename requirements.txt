@@ -79,7 +79,7 @@ traitlets==5.14.0
 transformers==4.17.0
 typing-extensions==4.9.0
 umap-learn==0.5.2
-urllib3==2.1.0
+urllib3==1.26.6
 wcwidth==0.2.12
 websockets==8.1
 Werkzeug==2.0.3
