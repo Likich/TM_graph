@@ -11,6 +11,13 @@ import pandas as pd
 from googletrans import Translator
 import os
 translator = Translator()
+import nltk
+
+
+nltk.download('stopwords')
+nltk.download('wordnet')
+nltk.download('punkt')
+nltk.download('omw-1.4')
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
