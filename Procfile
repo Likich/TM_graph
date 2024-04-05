@@ -1,1 +1,1 @@
-web: gunicorn app:app --workers=5 --bind 0.0.0.0:8080 --timeout 600
+gunicorn --workers=3 app:app --timeout 200 --log-file -
