@@ -1,0 +1,6 @@
+services:
+  your_service_name:
+    build: .
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4
