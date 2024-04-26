@@ -44,7 +44,7 @@ docker build -t tm_graph .
 4. Run the container from the image:
 
 ```
-docker run -d -p 5000:5000 --name tm_graph_container tm_graph
+docker run -d -p 5000:8080 --name tm_graph_container tm_graph
 ```
 
 
