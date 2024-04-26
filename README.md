@@ -14,30 +14,43 @@ This repository contains a Python script for performing topic modeling on multil
 - User-friendly web interface for easy interaction.
 - Visualization of topics in a graph format.
 
-## Getting Started
+## Getting Started with Docker
 
-To get started with TM_graph, follow these steps:
+To get started with TM_graph using Docker, follow these steps:
+
+1. Clone this repository to your local machine:
+
 
 1. Clone this repository to your local machine:
    ```
    git clone https://github.com/Likich/TM_graph.git
    ```
 
-2. Install the required dependencies using pip. You can use the provided requirements.txt file:
+
+2. Navigate to the directory containing the Dockerfile of the cloned repository:
+
+```
+cd TM_graph
+```
 
 
-   ```
-   pip install -r requirements.txt
-   ```
+3. Build the Docker image:
 
-3. Run the server by executing app.py:
-
-   ```
-   python app.py
-   ```
+```
+docker build -t tm_graph .
+```
 
 
-4. Open a web browser and access the server as per the provided instructions.
+4. Run the container from the image:
+
+```
+docker run -d -p 5000:5000 --name tm_graph_container tm_graph
+```
+
+
+5. Open a web browser and access the server at `http://localhost:5000`.
+
+Note: The above command assumes that the application runs on port 5000 within the container. Adjust the port mappings as necessary.
 
 ## Usage
 1. Load your text data into the server using the web interface.
@@ -49,17 +62,21 @@ To get started with TM_graph, follow these steps:
 The server provides multilingual support. It can automatically detect the language of the input text and select the appropriate model (DeepPavlov for Russian or multilingual BERT for other languages).
 
 ## Code Structure
-Make_graph_from_TM.py: Python script for creating the topic graph.<br>
-TM.py: Contains the code for topic modeling and text analysis.<br>
-app.py: The main server application script.<br>
-Preprocess.py: Supports preprocessing for text analysis.<br>
-lemmatizator_stem.py: Provides lemmatization support.<br>
-static/ and templates/: Contain static files and HTML templates for the web 
+- `Make_graph_from_TM.py`: Python script for creating the topic graph.
+- `TM.py`: Contains the code for topic modeling and text analysis.
+- `app.py`: The main server application script.
+- `Preprocess.py`: Supports preprocessing for text analysis.
+- `lemmatizator_stem.py`: Provides lemmatization support.
+- `static/` and `templates/`: Contain static files and HTML templates for the web interface.
 
+## Docker Support
+The application is fully Dockerized for easy setup and deployment. Follow the Docker instructions above to build and run the application inside a Docker container.
 
 ## Author
 Likich
 
 Feel free to use and modify this server for your text analysis needs!
 
-Note: Ensure that you have the required Python libraries installed before running the server. You may need to set up additional configurations or install additional resources based on your specific environment and requirements.
+Note: Ensure that Docker is installed and running on your machine before building and running the Docker container.
+
+
