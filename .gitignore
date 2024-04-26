@@ -11,3 +11,8 @@ clear_nodes
 clear_links
 all_sw
 dictionary
+
+# Elastic Beanstalk Files
+.elasticbeanstalk/*
+!.elasticbeanstalk/*.cfg.yml
+!.elasticbeanstalk/*.global.yml

@@ -21,3 +21,6 @@ dictionary
 .elasticbeanstalk/*
 !.elasticbeanstalk/*.cfg.yml
 !.elasticbeanstalk/*.global.yml
+
+
+#scp -i /home/likich/TM_graph/key.pem /home/likich/TM_graph/templates/index.html ubuntu@52.36.244.46 :/home/TM_graph/templates

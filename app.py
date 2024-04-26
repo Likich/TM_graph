@@ -40,20 +40,27 @@ def get_node_info(node_name):
     node_info = 'Node: <b>{node_id}</b><br>Output:<br>{output}'.format(node_id=node_name, output=output) # get_node_information(node_id)
     return node_info
 
-	
-# @app.route('/uploader', methods = ['GET', 'POST'])
-# def upload_file():
-#    if request.method == 'POST':
-#       f = request.files['file']
-#       f.save(secure_filename(f.filename))
-#       return 'File uploaded successfully'
 
-# @app.route('/uploader2', methods = ['GET', 'POST'])
-# def upload_file2():
-#    if request.method == 'POST':
-#       f = request.files['file']
-#       f.save(secure_filename(f.filename))
-#       return 'File uploaded successfully'
+
+@app.route('/uploadText', methods=['POST'])
+def upload_text():
+    text_content = request.form['text']
+    file_type = request.form['fileType']
+    
+    # Assign filenames based on the fileType
+    if file_type == "main":
+        filepath = 'text.txt'  # For main text
+    elif file_type == "stopwords":
+        filepath = 'additional_stopwords.txt'  # For stopwords
+    else:
+        return "Invalid fileType", 400
+
+    # Save the text content to the specified file
+    with open(filepath, 'w') as file:
+        file.write(text_content)
+    
+    return 'Text uploaded and processed successfully.'
+
 
 
 @app.route('/upload', methods=['POST'])
@@ -71,6 +78,7 @@ def upload():
         file.save(filename)
         return 'File uploaded successfully.'
 
+from flask import send_from_directory, current_app
 
 @app.route('/my-link/')
 def my_link():
@@ -80,12 +88,38 @@ def my_link():
         first_line = f.readline()
     result = translator.translate(first_line)
     lang = result.src
+    
+    # Determine output file name
+    output_filename = 'interview_lemmatized.xlsx'
+    
     if lang == 'ru':
+        # Ensure lemmatize_all() saves the output to 'lemmatized_text.txt'
         lemmatize_all('text.txt', include_interviewer)
     elif lang == 'en':
+        # Ensure lemmatize_all_eng() saves the output to 'lemmatized_text.txt'
         lemmatize_all_eng('text.txt', include_interviewer)
 
+    # Directory where the file is saved
+    directory = current_app.root_path
+
     return 'Your file is lemmatized, now you can click preprocess.'
+
+
+
+# @app.route('/my-link/')
+# def my_link():
+#     include_interviewer = request.args.get('includeInterviewer') == 'true'
+
+#     with open('text.txt') as f:
+#         first_line = f.readline()
+#     result = translator.translate(first_line)
+#     lang = result.src
+#     if lang == 'ru':
+#         lemmatize_all('text.txt', include_interviewer)
+#     elif lang == 'en':
+#         lemmatize_all_eng('text.txt', include_interviewer)
+
+#     return 'Your file is lemmatized, now you can click preprocess.'
 
 @app.route('/my-preprocess/')
 def my_preprocess():
